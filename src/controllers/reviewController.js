@@ -70,7 +70,7 @@ exports.updateReview = async function (req, res) {
       { runValidators: true }
     );
 
-    const allReviews = await reviewModel.find({ bookId }).select({
+    const allReviews = await reviewModel.find({ bookId : bookId , isDeleted : false }).select({
       isDeleted: 0,
       __v: 0,
       createdAt: 0,
@@ -111,6 +111,7 @@ exports.deleteReview = async (req, res) => {
       { _id: bookId },
       { $inc: { reviews: -1 } }
     );
+    
     if (!updatedBook) {
       return res.status(400).send({
         status: false,
@@ -124,3 +125,7 @@ exports.deleteReview = async (req, res) => {
     return errorHandler(err, res);
   }
 };
+
+
+
+
